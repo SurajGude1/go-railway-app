@@ -23,6 +23,6 @@ func main() {
 		port = "8080" // default for local
 	}
 
-	log.Printf("Server running on port %s", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Printf("Server running on 0.0.0.0:%s", port)
+	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, nil)) // ✅ Use 0.0.0.0
 }
