@@ -3,26 +3,36 @@ package main
 import (
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+
+	"go-railway-app/controller" // Replace with your actual module name
 )
 
 func main() {
-	// Load .env only on local (if exists)
 	_ = godotenv.Load()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		mongoURI := os.Getenv("MONGO_DB_URI")
-		fmt.Fprintf(w, "This is the Golang deployed server on Railway. MONGO_DB_URI: %s", mongoURI)
-	})
+	router := gin.Default()
+
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "https://iw-fe-v01.vercel.app"},
+		AllowMethods:     []string{"GET"},
+		AllowHeaders:     []string{"Origin", "Content-Type"},
+		AllowCredentials: true,
+	}))
+
+	router.GET("/admin/get-posts", controller.GetPosts)
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080" // default for local
+		port = "8080"
 	}
+	fmt.Println("Server running on port", port)
 
-	log.Printf("Server running on 0.0.0.0:%s", port)
-	log.Fatal(http.ListenAndServe("0.0.0.0:"+port, nil)) // ✅ Use 0.0.0.0
+	if err := router.Run("0.0.0.0:" + port); err != nil {
+		log.Fatal("Server failed:", err)
+	}
 }
