@@ -18,7 +18,13 @@ func main() {
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "https://next-vercel-app-ten.vercel.app", "https://next-vercel-app-beta.vercel.app/", "https://next-vercel-app-git-main-surajs-projects-001e53ac.vercel.app/", "https://next-vercel-o9kmtt482-surajs-projects-001e53ac.vercel.app/"},
+		AllowOrigins: []string{
+			"http://localhost:3000",
+			"https://next-vercel-app-ten.vercel.app",
+			"https://next-vercel-app-beta.vercel.app",
+			"https://next-vercel-app-git-main-surajs-projects-001e53ac.vercel.app",
+			"https://next-vercel-o9kmtt482-surajs-projects-001e53ac.vercel.app",
+		},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
 		AllowCredentials: true,
